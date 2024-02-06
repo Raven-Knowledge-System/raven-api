@@ -1,9 +1,17 @@
 version: '3'
 tasks:
+  build:
+    desc: 'Build the application'
+    cmds:
+      - docker compose build
+      - echo "Success!"
+  restart:
+    desc: 'Restart the application'
+    cmds:
+      - docker compose up -d
+      - echo "Success!"
   start:
     desc: 'Start the application'
     cmds:
       - docker compose up -d
       - echo "Success!"
-    generates:
-      - output.txt
