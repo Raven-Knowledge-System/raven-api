@@ -10,6 +10,15 @@ import {
 
 @Entity('memory')
 export class MemoryRecord {
+  constructor(props: MemoryRecord) {
+    this.uuid = props.uuid;
+    this.title = props.title;
+    this.summary = props.summary;
+    this.link = props.link;
+    this.createdAt = props.createdAt;
+    this.updatedAt = props.updatedAt;
+  }
+
   @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'pk_memory' })
   readonly uuid: string;
 

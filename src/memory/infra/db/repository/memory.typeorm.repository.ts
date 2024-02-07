@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { MemoryRepositoryPort } from '../ports/memory.repository.port';
 import { Memory } from 'memory/domain/memory';
 import { Nullable } from 'lib/nullable';
+import { toDomain } from '../mapper/memory.mapper';
 
 @Injectable()
 export class MemoryTypeormRepository implements MemoryRepositoryPort {
@@ -14,11 +15,11 @@ export class MemoryTypeormRepository implements MemoryRepositoryPort {
   ) {}
 
   async create(memory: MemoryRecord): Promise<Memory> {
-    return this.db.save(memory);
+    return toDomain(await this.db.save(memory));
   }
 
   async findByUuid(uuid: string): Promise<Nullable<Memory>> {
     const memoryRecord = await this.db.findOne({ where: { uuid } });
-    return memoryRecord ? new Memory(memoryRecord) : null;
+    return memoryRecord ? toDomain(memoryRecord) : null;
   }
 }

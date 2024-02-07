@@ -7,5 +7,5 @@ export class MemoryPostDto {
     description: 'The link to the memory',
   })
   @IsUrl()
-  link: string;
+  readonly link!: string;
 }

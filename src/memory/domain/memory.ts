@@ -12,7 +12,7 @@ export type MemoryCreateProps = {
   uuid?: string;
   title: string;
   summary: string;
-  link: string;
+  link?: string;
 };
 
 export class Memory {
@@ -30,13 +30,13 @@ export class Memory {
 
   @IsUrl()
   @IsOptional()
-  link: string;
+  link: Nullable<string>;
 
   constructor(createProps: MemoryCreateProps) {
     this.uuid = createProps?.uuid ?? null;
     this.title = createProps.title;
     this.summary = createProps.summary;
-    this.link = createProps.link;
+    this.link = createProps?.link ?? null;
 
     validate(this);
   }
