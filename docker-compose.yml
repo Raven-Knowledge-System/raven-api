@@ -13,6 +13,8 @@ services:
     ports:
       - 3000:3000
     command: npm run start:dev
+    environment: 
+      DATABASE_URL: postgres://username:password@postgres:5432/db
   postgres:
     image: postgres:latest
     environment:

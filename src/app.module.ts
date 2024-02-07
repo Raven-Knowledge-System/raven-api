@@ -2,16 +2,11 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { typeOrmOptions } from 'ormconfig';
+import { MemoryModule } from 'memory/memory.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      url: 'postgres://username:password@postgres:5432/db',
-      type: 'postgres',
-      entities: [__dirname + '/**/infra/db/table/**/*record{.js,.ts}'],
-      synchronize: false,
-    }),
-  ],
+  imports: [TypeOrmModule.forRoot(typeOrmOptions), MemoryModule],
   controllers: [AppController],
   providers: [AppService],
 })

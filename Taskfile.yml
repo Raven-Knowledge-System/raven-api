@@ -6,6 +6,7 @@ tasks:
       - docker compose build
       - echo "Success!"
   restart:
+    aliases: ['r']
     desc: 'Restart the application'
     cmds:
       - docker compose up -d
@@ -15,3 +16,16 @@ tasks:
     cmds:
       - docker compose up -d
       - echo "Success!"
+  schemaCheck:
+    desc: 'Check the schema'
+    cmds:
+      - docker-compose exec api npm run typeorm -- schema:log
+  ssh:
+    desc: 'SSH into the container'
+    cmds:
+      - docker-compose exec api sh
+  connectDb:
+    aliases: ['cdb']
+    desc: 'Connect to the database'
+    cmds:
+      - docker compose exec postgres psql postgres://username:password@postgres:5432/db
