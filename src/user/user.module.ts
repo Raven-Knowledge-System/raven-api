@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UserRepositoryPort } from './infra/db/ports/user.port';
 import { UserTypeOrmRepository } from './infra/db/repositories/user.repository';
-import { FindUserByApiKeyService } from './domain/services/find-user-by-api-key';
 import { UserRecord } from './infra/db/user.table-definition';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -13,8 +12,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       provide: UserRepositoryPort,
       useClass: UserTypeOrmRepository,
     },
-    FindUserByApiKeyService,
   ],
-  exports: [FindUserByApiKeyService],
+  exports: [],
 })
 export class UserModule {}
