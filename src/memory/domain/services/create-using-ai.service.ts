@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { MemoryRepositoryPort } from 'memory/infra/db/ports/memory.repository.port';
-
 import { SummaryRepositoryPort } from 'memory/infra/db/ports/summary.repository.port';
 import { Memory } from '../memory';
 
@@ -11,8 +10,8 @@ export class CreateUsingAiService {
     private readonly repo: MemoryRepositoryPort,
   ) {}
 
-  async createUsingAi(url: string) {
+  async createUsingAi(userUuid: string, url: string) {
     const { summary, title } = await this.summarizer.summarize(url);
-    return this.repo.create(new Memory({ url, summary, title }));
+    return this.repo.create(new Memory({ url, summary, title, userUuid }));
   }
 }

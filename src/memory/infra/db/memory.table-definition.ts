@@ -3,9 +3,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { UserRecord } from 'user/infra/db/user.table-definition';
 
 @Entity('memory')
 export class MemoryRecord {
@@ -27,6 +30,13 @@ export class MemoryRecord {
   @Column({ type: 'text', nullable: true })
   @IsUrl()
   readonly url!: string;
+
+  @ManyToOne(() => UserRecord, (user) => user.memories)
+  @JoinColumn({
+    name: 'user_uuid',
+    foreignKeyConstraintName: 'user_uuid_fk_memory',
+  })
+  readonly user!: UserRecord;
 
   @CreateDateColumn()
   readonly createdAt!: Date;
