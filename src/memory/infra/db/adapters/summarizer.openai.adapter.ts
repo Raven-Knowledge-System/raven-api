@@ -23,14 +23,14 @@ export class SummarizerOpenAiService implements SummaryRepositoryPort {
     });
   }
 
-  async summarize(link: string): Promise<{ title: string; summary: string }> {
-    const response = await fetch(link);
+  async summarize(url: string): Promise<{ title: string; summary: string }> {
+    const response = await fetch(url);
     const content = await response.text();
     return ChatPromptTemplate.fromMessages([
       [
         'system',
         `You are a specialist in summarizing articles. 
-        When summarizing an article, you will response with JSON in the form of {{ "title": "string", "summary": "string" }}
+        When summarizing an article, you will respond with JSON in the form of {{ "title": "string", "summary": "string" }}
 
         Example: {{ "title": "The title of the article", "summary": "The summary of the article" }}
         `,

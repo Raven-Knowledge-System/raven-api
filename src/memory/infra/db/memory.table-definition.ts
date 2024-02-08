@@ -26,7 +26,7 @@ export class MemoryRecord {
 
   @Column({ type: 'text', nullable: true })
   @IsUrl()
-  readonly link!: string;
+  readonly url!: string;
 
   @CreateDateColumn()
   readonly createdAt!: Date;

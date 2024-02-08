@@ -5,7 +5,7 @@ import { Memory } from 'memory/domain/memory';
 export class MemoryResponseDto {
   constructor(props: Memory) {
     this.uuid = props.uuid;
-    this.link = props.link;
+    this.url = props.url;
     this.title = props.title;
     this.summary = props.summary;
     this.createdAt = props.createdAt;
@@ -19,10 +19,10 @@ export class MemoryResponseDto {
 
   @ApiProperty({
     example: 'https://pubmed.ncbi.nlm.nih.gov/15114002/',
-    description: 'The link related to the memory',
+    description: 'The url related to the memory',
     required: false,
   })
-  link: string;
+  url: string;
 
   @ApiProperty({
     example: 'This is a memory',

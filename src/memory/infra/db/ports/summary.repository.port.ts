@@ -1,3 +1,3 @@
 export abstract class SummaryRepositoryPort {
-  abstract summarize(link: string): Promise<{ title: string; summary: string }>;
+  abstract summarize(url: string): Promise<{ title: string; summary: string }>;
 }

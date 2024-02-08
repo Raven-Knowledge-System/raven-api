@@ -11,9 +11,8 @@ export class CreateUsingAiService {
     private readonly repo: MemoryRepositoryPort,
   ) {}
 
-  async createUsingAi(link: string) {
-    const { summary, title } = await this.summarizer.summarize(link);
-    console.log(summary);
-    return this.repo.create(new Memory({ link, summary, title }));
+  async createUsingAi(url: string) {
+    const { summary, title } = await this.summarizer.summarize(url);
+    return this.repo.create(new Memory({ url, summary, title }));
   }
 }

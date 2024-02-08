@@ -16,7 +16,7 @@ export class MemoryV1Controller {
   @Post('/auto')
   @ApiOperation({
     summary: 'Create Memory',
-    description: 'Uses AI to generate a memory from a link.',
+    description: 'Uses AI to generate a memory from a url.',
   })
   @ApiCreatedResponse({
     type: MemoryResponseDto,
@@ -24,7 +24,7 @@ export class MemoryV1Controller {
   })
   async postMemory(@Body() dto: MemoryPostDto): Promise<MemoryResponseDto> {
     return new MemoryResponseDto(
-      await this.createUsingAiService.createUsingAi(dto.link),
+      await this.createUsingAiService.createUsingAi(dto.url),
     );
   }
 }

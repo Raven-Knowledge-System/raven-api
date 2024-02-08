@@ -6,7 +6,7 @@ export type MemoryCreateProps = {
   uuid?: string;
   title: string;
   summary: string;
-  link: string;
+  url: string;
   createdAt?: Date;
   updatedAt?: Date;
 };
@@ -22,7 +22,7 @@ export class Memory {
   readonly summary: string;
 
   @IsUrl()
-  link: string;
+  url: string;
 
   @IsDate()
   createdAt: Date;
@@ -35,7 +35,7 @@ export class Memory {
     this.uuid = createProps?.uuid ?? uuidv4();
     this.title = createProps.title;
     this.summary = createProps.summary;
-    this.link = createProps.link;
+    this.url = createProps.url;
     this.createdAt = createProps?.createdAt ?? now;
     this.updatedAt = createProps?.updatedAt ?? now;
 
