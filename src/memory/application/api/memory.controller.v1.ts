@@ -5,7 +5,6 @@ import { MemoryResponseDto } from './dto/memory.response.dto';
 import { CreateUsingAiService } from 'memory/domain/services/create-using-ai.service';
 import { ApiKeyGuard } from 'auth/api-key.guard';
 import { AuthenticatedUser } from 'auth/authenticated-user.decorator';
-import { User } from 'user/domain/user';
 
 @ApiTags('Memory')
 @Injectable()
@@ -27,11 +26,11 @@ export class MemoryV1Controller {
     description: 'The memory was created successfully.',
   })
   async postMemory(
-    @AuthenticatedUser() user: User,
+    @AuthenticatedUser() userUuid: string,
     @Body() dto: MemoryPostDto,
   ): Promise<MemoryResponseDto> {
     return new MemoryResponseDto(
-      await this.createUsingAiService.createUsingAi(user.uuid, dto.url),
+      await this.createUsingAiService.createUsingAi(userUuid, dto.url),
     );
   }
 }

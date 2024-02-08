@@ -7,14 +7,12 @@ import { MemoryRecord } from './infra/db/memory.table-definition';
 import { SummaryRepositoryPort } from './infra/db/ports/summary.repository.port';
 import { SummarizerOpenAiService } from './infra/db/adapters/summarizer.openai.adapter';
 import { CreateUsingAiService } from './domain/services/create-using-ai.service';
-import { FindUserByApiKeyService } from 'user/domain/services/find-user-by-api-key';
-import { UserModule } from 'user/user.module';
 import { UserRecord } from 'user/infra/db/user.table-definition';
 import { UserRepositoryPort } from 'user/infra/db/ports/user.port';
 import { UserTypeOrmRepository } from 'user/infra/db/repositories/user.repository';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([MemoryRecord, UserRecord]), UserModule],
+  imports: [TypeOrmModule.forFeature([MemoryRecord, UserRecord])],
   providers: [
     {
       provide: MemoryRepositoryPort,
@@ -29,7 +27,6 @@ import { UserTypeOrmRepository } from 'user/infra/db/repositories/user.repositor
       useClass: UserTypeOrmRepository,
     },
     CreateUsingAiService,
-    FindUserByApiKeyService,
   ],
   controllers: [MemoryV1Controller],
 })

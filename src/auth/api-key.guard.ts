@@ -29,7 +29,7 @@ export class ApiKeyGuard implements CanActivate {
       throw new UnauthorizedException('Invalid API key');
     }
 
-    request.user = user;
+    request.user = { uuid: user.uuid };
     return true;
   }
 }
