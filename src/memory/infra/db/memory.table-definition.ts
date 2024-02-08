@@ -1,5 +1,4 @@
-import { IsNotEmpty, IsOptional, IsUrl } from 'class-validator';
-import { Nullable } from 'lib/nullable';
+import { IsNotEmpty, IsUrl } from 'class-validator';
 import {
   Column,
   CreateDateColumn,
@@ -10,34 +9,28 @@ import {
 
 @Entity('memory')
 export class MemoryRecord {
-  constructor(props: MemoryRecord) {
-    this.uuid = props.uuid;
-    this.title = props.title;
-    this.summary = props.summary;
-    this.link = props.link;
-    this.createdAt = props.createdAt;
-    this.updatedAt = props.updatedAt;
+  constructor(partial: Partial<MemoryRecord>) {
+    Object.assign(this, partial);
   }
 
   @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'pk_memory' })
-  readonly uuid: string;
+  readonly uuid!: string;
 
   @Column('text')
   @IsNotEmpty()
-  readonly title: string;
+  readonly title!: string;
 
   @Column('text')
   @IsNotEmpty()
-  readonly summary: string;
+  readonly summary!: string;
 
   @Column({ type: 'text', nullable: true })
   @IsUrl()
-  @IsOptional()
-  readonly link: Nullable<string>;
+  readonly link!: string;
 
   @CreateDateColumn()
-  readonly createdAt: Date;
+  readonly createdAt!: Date;
 
   @UpdateDateColumn()
-  readonly updatedAt: Date;
+  readonly updatedAt!: Date;
 }

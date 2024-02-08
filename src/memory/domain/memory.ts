@@ -1,42 +1,43 @@
-import {
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  IsUUID,
-  IsUrl,
-} from 'class-validator';
-import { Nullable } from 'lib/nullable';
+import { IsDate, IsString, IsUUID, IsUrl } from 'class-validator';
 import { validate } from 'lib/validate';
+import { v4 as uuidv4 } from 'uuid';
 
 export type MemoryCreateProps = {
   uuid?: string;
   title: string;
   summary: string;
-  link?: string;
+  link: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export class Memory {
-  @IsOptional()
   @IsUUID(4)
-  readonly uuid: Nullable<string>;
+  readonly uuid: string;
 
   @IsString()
-  @IsNotEmpty()
   readonly title: string;
 
   @IsString()
-  @IsNotEmpty()
   readonly summary: string;
 
   @IsUrl()
-  @IsOptional()
-  link: Nullable<string>;
+  link: string;
+
+  @IsDate()
+  createdAt: Date;
+
+  @IsDate()
+  updatedAt: Date;
 
   constructor(createProps: MemoryCreateProps) {
-    this.uuid = createProps?.uuid ?? null;
+    const now = new Date();
+    this.uuid = createProps?.uuid ?? uuidv4();
     this.title = createProps.title;
     this.summary = createProps.summary;
-    this.link = createProps?.link ?? null;
+    this.link = createProps.link;
+    this.createdAt = createProps?.createdAt ?? now;
+    this.updatedAt = createProps?.updatedAt ?? now;
 
     validate(this);
   }

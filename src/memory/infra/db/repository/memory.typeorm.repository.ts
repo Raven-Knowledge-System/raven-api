@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { MemoryRepositoryPort } from '../ports/memory.repository.port';
 import { Memory } from 'memory/domain/memory';
 import { Nullable } from 'lib/nullable';
-import { toDomain } from '../mapper/memory.mapper';
+import { toDomain } from '../mappers/memory.mapper';
 
 @Injectable()
 export class MemoryTypeormRepository implements MemoryRepositoryPort {
