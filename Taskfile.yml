@@ -29,3 +29,8 @@ tasks:
     desc: 'Connect to the database'
     cmds:
       - docker compose exec postgres psql postgres://username:password@postgres:5432/db
+  createUser:
+    desc: 'Create a new user'
+    cmds:
+      - docker-compose exec postgres psql postgres://username:password@postgres:5432/db -c \
+        "INSERT INTO \"user\"(api_key, email) VALUES(uuid_generate_v4(), 'test@test.com') RETURNING *"

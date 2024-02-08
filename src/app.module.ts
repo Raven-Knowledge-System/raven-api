@@ -6,6 +6,7 @@ import { typeOrmOptions } from 'ormconfig';
 import { MemoryModule } from 'memory/memory.module';
 import { ConfigModule } from '@nestjs/config';
 import { configSchema } from 'config/config-schema';
+import { UserModule } from 'user/user.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { configSchema } from 'config/config-schema';
     }),
     TypeOrmModule.forRoot(typeOrmOptions),
     MemoryModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
