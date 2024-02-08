@@ -10,9 +10,17 @@ services:
     volumes:
       - ./src:/usr/src/app/src
       - ./bin:/usr/src/app/bin
+      - ${PWD}/package.json:/usr/src/app/package.json
     ports:
       - 3000:3000
-    command: npm run start:dev
+      # Debug Port 
+      - 9234:9229
+    command: npm run start:debug
+    environment: 
+      DATABASE_URL: postgres://username:password@postgres:5432/db
+      OPENAI_API_KEY: ${OPENAI_API_KEY_PERSONAL}
+      OPENAI_MODEL: 'gpt-4-turbo-preview'
+      OPENAI_TEMPERATURE: 0.7
   postgres:
     image: postgres:latest
     environment:
@@ -20,7 +28,7 @@ services:
       POSTGRES_USER: username
       POSTGRES_PASSWORD: password
     ports:
-      - "5432:5432"
+      - 5432:5432
     volumes:
       - pg_data:/var/lib/postgresql/data
 

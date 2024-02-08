@@ -2,15 +2,23 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { typeOrmOptions } from 'ormconfig';
+import { MemoryModule } from 'memory/memory.module';
+import { ConfigModule } from '@nestjs/config';
+import { configSchema } from 'config/config-schema';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      url: 'postgres://username:password@postgres:5432/db',
-      type: 'postgres',
-      entities: [__dirname + '/**/infra/db/table/**/*record{.js,.ts}'],
-      synchronize: false,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      validationSchema: configSchema,
+      validationOptions: {
+        allowUnknown: true,
+        abortEarly: true,
+      },
     }),
+    TypeOrmModule.forRoot(typeOrmOptions),
+    MemoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
