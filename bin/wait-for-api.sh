@@ -2,7 +2,7 @@
 set -euo pipefail
 
 attempt_counter=0
-max_attempts=15
+max_attempts=5
 
 echo "Checking if the service is up."
 until [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:3000/v1)" = "200" ]]; do

@@ -1,4 +1,6 @@
 name: Node.js CI
+env:
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
 on:
   push:
@@ -58,7 +60,7 @@ jobs:
         run: npm ci
 
       - name: Run Unit Tests
-        run: npm run test
+        run: npm run test:unit
 
   e2e-tests:
     needs: setup-and-lint
