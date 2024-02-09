@@ -12,7 +12,7 @@ export interface BaseProps {
 export abstract class BaseEntity {
   @IsNotEmpty()
   @IsUUID(4)
-  uuid: AggregateEntity;
+  readonly uuid: AggregateEntity;
 
   @IsDate()
   createdAt: Date;
