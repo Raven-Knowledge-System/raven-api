@@ -10,6 +10,7 @@ import { CreateUsingAiService } from './domain/services/create-using-ai.service'
 import { UserRecord } from 'user/infra/db/user.table-definition';
 import { UserRepositoryPort } from 'user/infra/db/ports/user.port';
 import { UserTypeOrmRepository } from 'user/infra/db/repositories/user.repository';
+import { ExistsChecker } from './domain/services/exists-checker.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([MemoryRecord, UserRecord])],
@@ -27,6 +28,7 @@ import { UserTypeOrmRepository } from 'user/infra/db/repositories/user.repositor
       useClass: UserTypeOrmRepository,
     },
     CreateUsingAiService,
+    ExistsChecker,
   ],
   controllers: [MemoryV1Controller],
 })
