@@ -1,6 +1,4 @@
 name: Node.js CI
-env:
-  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
 on:
   push:
@@ -65,6 +63,8 @@ jobs:
   e2e-tests:
     needs: setup-and-lint
     runs-on: ubuntu-latest
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
     steps:
       - uses: actions/checkout@v3
