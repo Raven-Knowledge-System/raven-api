@@ -29,8 +29,6 @@ export class MemoryTypeormRepository implements MemoryRepositoryPort {
       relations: ['user'],
     });
 
-    console.log(memoryRecord);
-
     return memoryRecord ? toDomain(memoryRecord) : null;
   }
 }

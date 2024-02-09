@@ -40,12 +40,15 @@ export class MemoryV1Controller {
     @AuthenticatedUser() userUuid: string,
     @Body() dto: MemoryPostDto,
   ): Promise<MemoryResponseDto> {
-    if (await this.existsChecker.checkExists(userUuid, dto.url)) {
-      throw new ConflictException('Memory already exists for user');
-    }
-
+    await this.throwIfExists(userUuid, dto.url);
     return new MemoryResponseDto(
       await this.createUsingAiService.createUsingAi(userUuid, dto.url),
     );
+  }
+
+  private async throwIfExists(userUuid: string, url: string): Promise<void> {
+    if (await this.existsChecker.exists(userUuid, url)) {
+      throw new ConflictException('Memory already exists for user');
+    }
   }
 }
