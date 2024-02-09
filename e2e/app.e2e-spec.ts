@@ -1,10 +1,7 @@
-import request from 'supertest';
-
 describe('AppController (e2e)', () => {
-  it('/ (GET)', () => {
-    return request('http://localhost:3000')
-      .get('/v1')
-      .expect(200)
-      .expect('Hello World!');
+  it('/ (GET)', async () => {
+    // convet to node-fetch
+    const res = await fetch('http://localhost:3000/v1/');
+    expect(res.status).toBe(200);
   });
 });

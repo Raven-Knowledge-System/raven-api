@@ -15,6 +15,8 @@ tasks:
     desc: 'Start the application'
     cmds:
       - docker compose up -d
+      - task: checkHealth
+      - task: createUser
       - echo "Success!"
   schemaCheck:
     desc: 'Check the schema'
@@ -32,9 +34,16 @@ tasks:
   createUser:
     desc: 'Create a new user'
     cmds:
-      - docker-compose exec postgres psql postgres://username:password@postgres:5432/db -c \
-        "INSERT INTO \"user\"(api_key, email) VALUES(uuid_generate_v4(), 'test@test.com') RETURNING *"
+      - docker compose exec -T postgres psql postgres://username:password@postgres:5432/db -c \
+        "INSERT INTO \"user\"(api_key, email) VALUES ('fc1e4352-b7f0-45e0-b510-74cb1d68a913'::uuid, 'test@test.com') ON CONFLICT (email) DO NOTHING RETURNING *;" \
+        > /dev/null 2>&1
+      - echo "Test API Key is fc1e4352-b7f0-45e0-b510-74cb1d68a913"
   checkHealth:
     desc: 'Check the health of the application'
     cmds:
       - ./bin/wait-for-api.sh
+  truncateDb:
+    desc: 'Truncate the database'
+    cmds:
+      - docker compose exec -T postgres psql postgres://username:password@postgres:5432/db -c \
+        "TRUNCATE TABLE \"memory\" CASCADE; TRUNCATE TABLE \"user\" CASCADE;"

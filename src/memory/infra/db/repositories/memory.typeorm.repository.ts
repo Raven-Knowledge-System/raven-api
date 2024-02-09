@@ -22,4 +22,13 @@ export class MemoryTypeormRepository implements MemoryRepositoryPort {
     const memoryRecord = await this.db.findOne({ where: { uuid } });
     return memoryRecord ? toDomain(memoryRecord) : null;
   }
+
+  async findByUrl(userUuid: string, url: string): Promise<Nullable<Memory>> {
+    const memoryRecord = await this.db.findOne({
+      where: { url, user: { uuid: userUuid } },
+      relations: ['user'],
+    });
+
+    return memoryRecord ? toDomain(memoryRecord) : null;
+  }
 }

@@ -1,10 +1,18 @@
-import { Body, Controller, Injectable, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  ConflictException,
+  Controller,
+  Injectable,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { MemoryPostDto } from './dto/memory.post.dto';
 import { MemoryResponseDto } from './dto/memory.response.dto';
 import { CreateUsingAiService } from 'memory/domain/services/create-using-ai.service';
 import { ApiKeyGuard } from 'auth/api-key.guard';
 import { AuthenticatedUser } from 'auth/authenticated-user.decorator';
+import { ExistsChecker } from 'memory/domain/services/exists-checker.service';
 
 @ApiTags('Memory')
 @Injectable()
@@ -14,7 +22,10 @@ import { AuthenticatedUser } from 'auth/authenticated-user.decorator';
 })
 @UseGuards(ApiKeyGuard)
 export class MemoryV1Controller {
-  constructor(private readonly createUsingAiService: CreateUsingAiService) {}
+  constructor(
+    private readonly createUsingAiService: CreateUsingAiService,
+    private readonly existsChecker: ExistsChecker,
+  ) {}
 
   @Post('/auto')
   @ApiOperation({
@@ -29,8 +40,15 @@ export class MemoryV1Controller {
     @AuthenticatedUser() userUuid: string,
     @Body() dto: MemoryPostDto,
   ): Promise<MemoryResponseDto> {
+    await this.throwIfExists(userUuid, dto.url);
     return new MemoryResponseDto(
       await this.createUsingAiService.createUsingAi(userUuid, dto.url),
     );
+  }
+
+  private async throwIfExists(userUuid: string, url: string): Promise<void> {
+    if (await this.existsChecker.exists(userUuid, url)) {
+      throw new ConflictException('Memory already exists for user');
+    }
   }
 }

@@ -10,7 +10,7 @@ export class CreateUsingAiService {
     private readonly repo: MemoryRepositoryPort,
   ) {}
 
-  async createUsingAi(userUuid: string, url: string) {
+  async createUsingAi(userUuid: string, url: string): Promise<Memory> {
     const { summary, title } = await this.summarizer.summarize(url);
     return this.repo.create(new Memory({ url, summary, title, userUuid }));
   }
