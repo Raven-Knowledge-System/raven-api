@@ -34,3 +34,7 @@ tasks:
     cmds:
       - docker-compose exec postgres psql postgres://username:password@postgres:5432/db -c \
         "INSERT INTO \"user\"(api_key, email) VALUES(uuid_generate_v4(), 'test@test.com') RETURNING *"
+  checkHealth:
+    desc: 'Check the health of the application'
+    cmds:
+      - ./bin/wait-for-api.sh

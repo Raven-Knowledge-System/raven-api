@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM node:18-alpine as install
+FROM --platform=$BUILDPLATFORM node:20-alpine as install
 
 WORKDIR /usr/src/app
 ARG GITHUB_ACCESS_TOKEN
