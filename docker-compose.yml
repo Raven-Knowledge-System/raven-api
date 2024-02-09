@@ -9,6 +9,7 @@ services:
         GITHUB_ACCESS_TOKEN: ${GITHUB_ACCESS_TOKEN}
     volumes:
       - ./src:/usr/src/app/src
+      - ./e2e:/usr/src/app/e2e
       - ./bin:/usr/src/app/bin
       - ${PWD}/package.json:/usr/src/app/package.json
     ports:
