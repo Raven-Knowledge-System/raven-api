@@ -9,6 +9,7 @@ export const validate = <T, E extends Error>(
   const validationErrors = validateSync(entity as any);
   if (validationErrors.length > 0) {
     throw (
+      // eslint-disable-next-line @typescript-eslint/no-throw-literal
       err?.(validationErrors) ??
       new SchemaError('Failed to validate object', {
         cause: validationErrors,
