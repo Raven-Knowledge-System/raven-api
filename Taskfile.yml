@@ -15,6 +15,7 @@ tasks:
     desc: 'Start the application'
     cmds:
       - docker compose up -d
+      - task: checkHealth
       - task: createUser
       - echo "Success!"
   schemaCheck:
