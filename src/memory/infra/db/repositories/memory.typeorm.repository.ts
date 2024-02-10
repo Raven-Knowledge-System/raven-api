@@ -19,7 +19,10 @@ export class MemoryTypeormRepository implements MemoryRepositoryPort {
   }
 
   async findByUuid(uuid: string): Promise<Nullable<Memory>> {
-    const memoryRecord = await this.db.findOne({ where: { uuid } });
+    const memoryRecord = await this.db.findOne({
+      where: { uuid },
+      relations: ['user'],
+    });
     return memoryRecord ? toDomain(memoryRecord) : null;
   }
 
@@ -30,5 +33,18 @@ export class MemoryTypeormRepository implements MemoryRepositoryPort {
     });
 
     return memoryRecord ? toDomain(memoryRecord) : null;
+  }
+
+  async delete(uuid: string): Promise<void> {
+    await this.db.delete({ uuid });
+  }
+
+  async findAllByUserUuid(userUuid: string): Promise<Memory[]> {
+    const memoryRecords = await this.db.find({
+      where: { user: { uuid: userUuid } },
+      relations: ['user'],
+    });
+
+    return memoryRecords.map(toDomain);
   }
 }

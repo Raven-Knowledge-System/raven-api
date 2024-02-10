@@ -12,6 +12,7 @@ services:
       - ./e2e:/usr/src/app/e2e
       - ./bin:/usr/src/app/bin
       - ${PWD}/package.json:/usr/src/app/package.json
+      - ./swagger.yaml:/usr/src/app/swagger.yaml
     ports:
       - 3000:3000
       # Debug Port 

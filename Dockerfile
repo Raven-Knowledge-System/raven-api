@@ -6,7 +6,7 @@ ENV GITHUB_ACCESS_TOKEN=$GITHUB_ACCESS_TOKEN
 ENV NODE_ENV=development
 RUN apk add g++ make python3
 ADD package.json package-lock.json /usr/src/app/
-RUN npm install
+RUN npm install --maxsockets 1
 
 FROM install as build
 
