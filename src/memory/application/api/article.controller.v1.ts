@@ -1,4 +1,6 @@
 import {
+  Body,
+  ConflictException,
   Controller,
   Delete,
   Get,
@@ -7,34 +9,38 @@ import {
   NotFoundException,
   Param,
   ParseUUIDPipe,
+  Post,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { MemoryResponseDto } from './dto/memory.response.dto';
 import { ApiKeyGuard } from 'auth/api-key.guard';
 import { AuthenticatedUser } from 'auth/authenticated-user.decorator';
-import { MemoryExistsChecker as MemoryExistsChecker } from 'memory/domain/services/memory-exists-checker.service';
 import { MemoryDeleteService as DeleteMemoryService } from 'memory/domain/services/memory-delete.service';
 import { StatusCodes } from 'http-status-codes';
 import { MemoryGetAllService } from 'memory/domain/services/memory-get-all-service';
+import { AutoMemoryPostDto } from './dto/auto-article.post.dto';
+import { ArticleExistsChecker } from 'memory/domain/services/article-exists-checker';
+import { ArticleAiCreate } from 'memory/domain/services/article-ai-create';
 
-@ApiTags('Memory')
+@ApiTags('Article')
 @Injectable()
 @Controller({
   version: '1',
-  path: 'memories',
+  path: '/memory/articles',
 })
 @UseGuards(ApiKeyGuard)
-export class MemoryV1Controller {
+export class ArticleV1Controller {
   constructor(
-    private readonly existsChecker: MemoryExistsChecker,
+    private readonly existsChecker: ArticleExistsChecker,
     private readonly deleteService: DeleteMemoryService,
     private readonly getAllService: MemoryGetAllService,
+    private readonly createUsingAiService: ArticleAiCreate,
   ) {}
 
   @Get('/')
   @ApiOperation({
-    summary: 'Get All Memories',
+    summary: 'Get All Articles',
   })
   async getAllMemories(
     @AuthenticatedUser() userUuid: string,
@@ -44,24 +50,24 @@ export class MemoryV1Controller {
     );
   }
 
-  // @Post('/auto')
-  // @ApiOperation({
-  //   summary: 'Auto Create Memory',
-  //   description: 'Uses AI to generate a memory from a url.',
-  // })
-  // @ApiCreatedResponse({
-  //   type: MemoryResponseDto,
-  //   description: 'The memory was created successfully.',
-  // })
-  // async postMemoryAuto(
-  //   @AuthenticatedUser() userUuid: string,
-  //   @Body() dto: AutoMemoryPostDto,
-  // ): Promise<MemoryResponseDto> {
-  //   await this.throwIfExists(userUuid, dto.url);
-  //   return new MemoryResponseDto(
-  //     await this.createUsingAiService.createUsingAi(userUuid, dto.url),
-  //   );
-  // }
+  @Post('/auto')
+  @ApiOperation({
+    summary: 'Auto Create Memory',
+    description: 'Uses AI to generate a memory from a url.',
+  })
+  @ApiCreatedResponse({
+    type: MemoryResponseDto,
+    description: 'The memory was created successfully.',
+  })
+  async postMemoryAuto(
+    @AuthenticatedUser() userUuid: string,
+    @Body() dto: AutoMemoryPostDto,
+  ): Promise<MemoryResponseDto> {
+    await this.throwIfExists(userUuid, dto.url);
+    return new MemoryResponseDto(
+      await this.createUsingAiService.createUsingAi(userUuid, dto.url),
+    );
+  }
 
   @Delete('/:uuid')
   @ApiOperation({
@@ -74,6 +80,12 @@ export class MemoryV1Controller {
     console.log('uuid', uuid);
     await this.throw404IfNotFound(uuid);
     await this.deleteService.deleteByUuid(uuid);
+  }
+
+  private async throwIfExists(userUuid: string, url: string): Promise<void> {
+    if (!(await this.existsChecker.existsByUrl(userUuid, url))) {
+      throw new ConflictException('Article already exists for user');
+    }
   }
 
   private async throw404IfNotFound(uuid: string): Promise<void> {

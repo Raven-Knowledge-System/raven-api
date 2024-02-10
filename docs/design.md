@@ -20,12 +20,12 @@ erDiagram
         string isbn "Nullable"
         string url "Nullable"
         string summary "Nullable"
+        string memoryId "Unique, Foreign Key"
     }
 
     Memory {
         string memoryId "Primary Key"
         string userId "Foreign Key"
-        string contentId "Foreign Key"
         string title
         datetime timestamp
     }
@@ -41,7 +41,7 @@ erDiagram
     }
 
     User ||--o{ Memory : "creates"
-    Content ||--o{ Memory : "detailed_in"
+    Memory ||--|| Content : "detailed_in"
     Memory ||--o{ MEMORY_TAGS : "categorized_by"
     TAG ||--o{ MEMORY_TAGS : "categorizes"
 ```

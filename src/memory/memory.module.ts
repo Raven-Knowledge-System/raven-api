@@ -15,6 +15,8 @@ import { MemoryDeleteService } from './domain/services/memory-delete.service';
 import { MemoryGetAllService } from './domain/services/memory-get-all-service';
 import { ArticleRepositoryPort } from './infra/db/ports/article.repository.port';
 import { ArticleTypeormRepository } from './infra/db/repositories/article.typeorm.repository';
+import { ArticleV1Controller } from './application/api/article.controller.v1';
+import { ArticleExistsChecker } from './domain/services/article-exists-checker';
 
 @Module({
   imports: [TypeOrmModule.forFeature([MemoryRecord, UserRecord])],
@@ -39,7 +41,8 @@ import { ArticleTypeormRepository } from './infra/db/repositories/article.typeor
     MemoryExistsChecker,
     MemoryDeleteService,
     MemoryGetAllService,
+    ArticleExistsChecker,
   ],
-  controllers: [MemoryV1Controller],
+  controllers: [MemoryV1Controller, ArticleV1Controller],
 })
 export class MemoryModule {}

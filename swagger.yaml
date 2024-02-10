@@ -7,7 +7,7 @@ paths:
       responses:
         "200":
           description: ""
-  /v1/memory:
+  /v1/memories:
     get:
       operationId: MemoryV1Controller_getAllMemories
       summary: Get All Memories
@@ -17,7 +17,7 @@ paths:
           description: ""
       tags: &a1
         - Memory
-  /v1/memory/{uuid}:
+  /v1/memories/{uuid}:
     delete:
       operationId: MemoryV1Controller_deleteMemory
       summary: Delete Memory
@@ -31,6 +31,50 @@ paths:
         "204":
           description: ""
       tags: *a1
+  /v1/memory/articles:
+    get:
+      operationId: ArticleV1Controller_getAllMemories
+      summary: Get All Articles
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      tags: &a2
+        - Article
+  /v1/memory/articles/auto:
+    post:
+      operationId: ArticleV1Controller_postMemoryAuto
+      summary: Auto Create Memory
+      description: Uses AI to generate a memory from a url.
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AutoMemoryPostDto"
+      responses:
+        "201":
+          description: The memory was created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MemoryResponseDto"
+      tags: *a2
+  /v1/memory/articles/{uuid}:
+    delete:
+      operationId: ArticleV1Controller_deleteMemory
+      summary: Delete Memory
+      parameters:
+        - name: uuid
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "204":
+          description: ""
+      tags: *a2
 info:
   title: Raven
   description: ""
@@ -39,4 +83,33 @@ info:
 tags: []
 servers: []
 components:
-  schemas: {}
+  schemas:
+    AutoMemoryPostDto:
+      type: object
+      properties:
+        url:
+          type: string
+          example: https://pubmed.ncbi.nlm.nih.gov/15114002/
+          description: The url to the memory
+      required:
+        - url
+    MemoryResponseDto:
+      type: object
+      properties:
+        uuid:
+          type: string
+          example: uuid
+          description: The unique identifier of the memory.
+        title:
+          type: string
+          example: This is a memory
+          description: The title of the memory
+        createdAt:
+          format: date-time
+          type: string
+          example: 2021-08-01T00:00:00.000Z
+          description: The summary of the memory
+      required:
+        - uuid
+        - title
+        - createdAt
