@@ -6,11 +6,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MemoryRecord } from './infra/db/memory.table-definition';
 import { SummaryRepositoryPort } from './infra/db/ports/summary.repository.port';
 import { SummarizerOpenAiService } from './infra/db/adapters/summarizer.openai.adapter';
-import { CreateUsingAiService } from './domain/services/create-using-ai.service';
+import { MemoryCreateUsingAiService } from './domain/services/memory-create-using-ai.service';
 import { UserRecord } from 'user/infra/db/user.table-definition';
 import { UserRepositoryPort } from 'user/infra/db/ports/user.port';
 import { UserTypeOrmRepository } from 'user/infra/db/repositories/user.repository';
-import { ExistsChecker } from './domain/services/exists-checker.service';
+import { MemoryExistsChecker } from './domain/services/memory-exists-checker.service';
+import { MemoryDeleteService } from './domain/services/memory-delete.service';
+import { CreateMemoryService as MemoryCreateService } from './domain/services/memory-create.service';
+import { MemoryGetAllService } from './domain/services/memory-get-all-service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([MemoryRecord, UserRecord])],
@@ -27,8 +30,11 @@ import { ExistsChecker } from './domain/services/exists-checker.service';
       provide: UserRepositoryPort,
       useClass: UserTypeOrmRepository,
     },
-    CreateUsingAiService,
-    ExistsChecker,
+    MemoryCreateUsingAiService,
+    MemoryExistsChecker,
+    MemoryDeleteService,
+    MemoryCreateService,
+    MemoryGetAllService,
   ],
   controllers: [MemoryV1Controller],
 })

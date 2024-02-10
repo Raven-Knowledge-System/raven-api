@@ -4,7 +4,7 @@ import { SummaryRepositoryPort } from 'memory/infra/db/ports/summary.repository.
 import { Memory } from '../memory';
 
 @Injectable()
-export class CreateUsingAiService {
+export class MemoryCreateUsingAiService {
   constructor(
     private readonly summarizer: SummaryRepositoryPort,
     private readonly repo: MemoryRepositoryPort,

@@ -37,7 +37,7 @@ export class MemoryResponseDto {
   summary: string;
 
   @ApiProperty({
-    example: 'When the memory was created.',
+    example: '2021-08-01T00:00:00.000Z',
     description: 'The summary of the memory',
   })
   createdAt: Date;
