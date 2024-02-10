@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserRecord } from 'user/infra/db/user.table-definition';
+import { UserRecord } from 'user/infra/db/tables/user.table-definition';
 
 @Injectable()
 export class ApiKeyGuard implements CanActivate {

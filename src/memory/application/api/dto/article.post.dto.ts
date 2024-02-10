@@ -22,4 +22,10 @@ export class MemoryPostDto {
   })
   @IsString()
   readonly summary!: string;
+
+  @ApiProperty({
+    example: 'Jane Doe',
+    description: 'The author of the memory',
+  })
+  readonly author!: string;
 }

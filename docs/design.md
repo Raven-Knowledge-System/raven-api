@@ -2,62 +2,48 @@
 
 ## Database Schema
 
+With this design, article, podcast, book all become invariants of the "content" model in our domain.
+
 ```mermaid
 erDiagram
-    USER {
-        string UserID "Primary Key"
-        string Name
-        string Email
+    User {
+        string userId "Primary Key"
+        string name
+        string email
         string apiKey
     }
 
-    MEMORY {
-        string MemoryID "Primary Key"
-        string UserID "Foreign Key"
-        string Type "ENUM('BOOK', 'ARTICLE', 'PODCAST')"
-        string Title
-        datetime Timestamp
+    Content {
+        string contentId "Primary Key"
+        string contentType
+        string author "Nullable"
+        string isbn "Nullable"
+        string url "Nullable"
+        string summary "Nullable"
     }
 
-    BOOK {
-        string BookID "Primary Key"
-        string MemoryID "Foreign Key"
-        string Author
-        string ISBN
-        string Summary
-    }
-
-    ARTICLE {
-        string ArticleID "Primary Key"
-        string MemoryID "Foreign Key"
-        string URL
-        string Summary
-    }
-
-    PODCAST {
-        string PodcastID "Primary Key"
-        string MemoryID "Foreign Key"
-        string EpisodeTitle
-        string URL
-        string Summary
+    Memory {
+        string memoryId "Primary Key"
+        string userId "Foreign Key"
+        string contentId "Foreign Key"
+        string title
+        datetime timestamp
     }
 
     TAG {
-        string TagID "Primary Key"
-        string TagName
+        string tagId "Primary Key"
+        string tagName
     }
 
-    MEMORY_TAG {
-        string MemoryID "Foreign Key"
-        string TagID "Foreign Key"
+    MEMORY_TAGS {
+        string memoryId "Foreign Key"
+        string tagId "Foreign Key"
     }
 
-    USER ||--o{ MEMORY : "creates"
-    MEMORY ||--|{ BOOK : "detailed_in"
-    MEMORY ||--|{ ARTICLE : "detailed_in"
-    MEMORY ||--|{ PODCAST : "detailed_in"
-    MEMORY ||--o{ MEMORY_TAG : "categorized_by"
-    TAG ||--o{ MEMORY_TAG : "categorizes"
+    User ||--o{ Memory : "creates"
+    Content ||--o{ Memory : "detailed_in"
+    Memory ||--o{ MEMORY_TAGS : "categorized_by"
+    TAG ||--o{ MEMORY_TAGS : "categorizes"
 ```
 
 ## API

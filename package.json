@@ -69,12 +69,20 @@
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
   },
-  "license": "UNLICENSED",
+  "license": "MIT",
+  "lint-staged": {
+    "*.ts": [
+      "eslint --cache --fix"
+    ],
+    "*.js": "eslint --cache --fix"
+  },
   "private": true,
   "scripts": {
     "build": "nest build",
+    "build:watch": "npx nest build --watch",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,e2e}/**/*.ts\" --fix",
+    "prepare": "husky",
     "start": "nest start",
     "start:debug": "nest start --watch --config nest-cli.json --debug 0.0.0.0:9229",
     "start:dev": "nest start --watch",
@@ -84,13 +92,6 @@
     "test:e2e": "jest --config ./src/e2e/jest-e2e.js --runInBand",
     "test:unit": "jest",
     "test:watch": "jest --watch",
-    "typeorm": "typeorm -d dist/ormconfig.js",
-    "prepare": "husky"
-  },
-  "lint-staged": {
-    "*.ts": [
-      "eslint --cache --fix"
-    ],
-    "*.js": "eslint --cache --fix"
+    "typeorm": "typeorm -d dist/ormconfig.js"
   }
 }

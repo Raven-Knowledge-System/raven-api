@@ -1,14 +1,14 @@
-import { IsNotEmpty, IsUrl } from 'class-validator';
 import {
-  Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { UserRecord } from 'user/infra/db/user.table-definition';
+import { UserRecord } from 'user/infra/db/tables/user.table-definition';
+import { ContentRecord } from './content.table-definition';
 
 @Entity('memory')
 export class MemoryRecord {
@@ -19,24 +19,21 @@ export class MemoryRecord {
   @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'pk_memory' })
   readonly uuid!: string;
 
-  @Column('text')
-  @IsNotEmpty()
-  readonly title!: string;
-
-  @Column('text')
-  @IsNotEmpty()
-  readonly summary!: string;
-
-  @Column({ type: 'text', nullable: true })
-  @IsUrl()
-  readonly url!: string;
-
-  @ManyToOne(() => UserRecord, (user) => user.memories)
+  @ManyToOne(() => UserRecord, (user) => user.memories, { nullable: false })
   @JoinColumn({
     name: 'user_uuid',
-    foreignKeyConstraintName: 'user_uuid_fk_memory',
+    foreignKeyConstraintName: 'fk_user_memory',
   })
   readonly user!: UserRecord;
+
+  @OneToOne(() => ContentRecord, (content) => content.memories, {
+    cascade: ['insert'],
+  })
+  @JoinColumn({
+    name: 'content_uuid',
+    foreignKeyConstraintName: 'fk_content_memory',
+  })
+  content!: ContentRecord;
 
   @CreateDateColumn()
   readonly createdAt!: Date;
