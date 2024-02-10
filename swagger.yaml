@@ -78,11 +78,6 @@ info:
 tags: []
 servers: []
 components:
-  securitySchemes:
-    api_key:
-      type: apiKey
-      in: corvidae-api-key
-      name: Authorization
   schemas:
     AutoMemoryPostDto:
       type: object

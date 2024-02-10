@@ -9,14 +9,7 @@ import * as fs from 'fs';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const config = new DocumentBuilder()
-    .setTitle('Raven')
-    .addApiKey({
-      type: 'apiKey',
-      name: 'Authorization',
-      in: 'corvidae-api-key',
-    })
-    .build();
+  const config = new DocumentBuilder().setTitle('Raven').build();
 
   app.enableVersioning({
     type: VersioningType.URI,

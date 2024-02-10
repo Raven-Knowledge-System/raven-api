@@ -107,7 +107,7 @@ export class MemoryV1Controller {
   }
 
   private async throwIfExists(userUuid: string, url: string): Promise<void> {
-    if (await this.existsChecker.urlExistsForUser(userUuid, url)) {
+    if (await this.existsChecker.existsForUser(userUuid, url)) {
       throw new ConflictException('Memory already exists for user');
     }
   }
