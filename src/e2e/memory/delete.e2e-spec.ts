@@ -9,7 +9,7 @@ describe('DELETE v1/memory/{uuid}', () => {
         'corvidae-api-key': apiKey,
       },
       body: JSON.stringify({
-        url: 'https://example.com',
+        url: 'https://example.com/1',
         title: 'A title',
         summary: 'Some content',
       }),

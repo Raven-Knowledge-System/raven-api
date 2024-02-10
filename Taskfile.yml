@@ -47,3 +47,8 @@ tasks:
     cmds:
       - docker compose exec -T postgres psql postgres://username:password@postgres:5432/db -c \
         "TRUNCATE TABLE \"memory\" CASCADE; TRUNCATE TABLE \"user\" CASCADE;"
+  resetDb:
+    desc: 'Reset the database'
+    cmds:
+      - task: truncateDb
+      - task: createUser

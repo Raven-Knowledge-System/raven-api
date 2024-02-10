@@ -37,6 +37,20 @@ describe('GET v1/memory', () => {
       },
     });
 
-    expect(await res.json()).toHaveLength(2);
+    const memories = await res.json();
+    expect(memories).toHaveLength(2);
+
+    // fetch to delete previous articles
+    await Promise.all(
+      memories.map((memory: { uuid: string }) =>
+        fetch(`http://localhost:3000/v1/memory/${memory.uuid}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'corvidae-api-key': apiKey,
+          },
+        }),
+      ),
+    );
   });
 });

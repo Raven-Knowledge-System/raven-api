@@ -81,7 +81,7 @@
     "start:prod": "node dist/main",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./src/e2e/jest-e2e.js",
+    "test:e2e": "jest --config ./src/e2e/jest-e2e.js --runInBand",
     "test:unit": "jest",
     "test:watch": "jest --watch",
     "typeorm": "typeorm -d dist/ormconfig.js",
