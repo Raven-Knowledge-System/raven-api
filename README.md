@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="300" height="300" src="./logo.png">
+  <img width="300" height="300" src="./logo.webp">
 </p>
 
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
