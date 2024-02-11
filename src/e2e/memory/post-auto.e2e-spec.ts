@@ -10,7 +10,7 @@ describe('POST v1/memory/auto', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'corvidae-api-key': apiKey,
+        'raven-api-key': apiKey,
       },
       body: JSON.stringify({
         url,
@@ -31,7 +31,7 @@ describe('POST v1/memory/auto', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'corvidae-api-key': apiKey,
+        'raven-api-key': apiKey,
       },
       body: JSON.stringify({
         url,

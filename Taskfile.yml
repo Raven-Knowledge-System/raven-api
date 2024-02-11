@@ -85,3 +85,13 @@ tasks:
     desc: 'SSH into the container'
     cmds:
       - docker-compose exec api sh
+
+  # Testing
+  testUnit:
+    desc: 'Run unit tests'
+    cmds:
+      - npm run test:unit
+  testE2e:
+    desc: 'Run end-to-end tests'
+    cmds:
+      - npm run test:e2e
