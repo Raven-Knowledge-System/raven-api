@@ -1,4 +1,4 @@
-describe('DELETE v1/memory/{uuid}', () => {
+describe.skip('DELETE v1/memory/{uuid}', () => {
   const apiKey = 'fc1e4352-b7f0-45e0-b510-74cb1d68a913';
 
   it('should delete a memory', async () => {

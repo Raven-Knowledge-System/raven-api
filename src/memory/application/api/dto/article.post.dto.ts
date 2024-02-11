@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsUrl } from 'class-validator';
 
-export class MemoryPostDto {
+export class ArticlePostDto {
   @ApiProperty({
     example: 'https://pubmed.ncbi.nlm.nih.gov/15114002/',
     description: 'The url to the memory',
@@ -22,4 +22,10 @@ export class MemoryPostDto {
   })
   @IsString()
   readonly summary!: string;
+
+  @ApiProperty({
+    example: 'Jane Doe',
+    description: 'The author of the memory',
+  })
+  readonly author!: string;
 }

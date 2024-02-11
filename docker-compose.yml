@@ -16,7 +16,7 @@ services:
     ports:
       - 3000:3000
       # Debug Port 
-      - 9234:9229
+      - 9234:9234
     command: npm run start:debug
     environment: 
       DATABASE_URL: postgres://username:password@postgres:5432/db

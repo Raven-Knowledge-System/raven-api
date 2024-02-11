@@ -1,16 +1,17 @@
 version: '3'
+
+vars:
+  API_KEY: ac47bd67-242b-4d0c-929c-a3127b9c5232
+
+# Application Management
+# Tasks related to building, starting, and restarting the application.
 tasks:
   build:
     desc: 'Build the application'
     cmds:
       - docker compose build
       - echo "Success!"
-  restart:
-    aliases: ['r']
-    desc: 'Restart the application'
-    cmds:
-      - docker compose up -d
-      - echo "Success!"
+
   start:
     desc: 'Start the application'
     cmds:
@@ -18,37 +19,69 @@ tasks:
       - task: checkHealth
       - task: createUser
       - echo "Success!"
-  schemaCheck:
-    desc: 'Check the schema'
+
+  restart:
+    desc: 'Restart the application'
+    aliases: ['r']
     cmds:
-      - docker-compose exec api npm run typeorm -- schema:log
-  ssh:
-    desc: 'SSH into the container'
+      - docker compose up -d
+      - echo "Success!"
+
+  hardRestart:
+    desc: 'Hard restart the application'
     cmds:
-      - docker-compose exec api sh
+      - docker compose down -v
+      - task: restart
+
+  # Database Operations
+  # Tasks for database maintenance, such as connecting, creating users, and resetting.
   connectDb:
-    aliases: ['cdb']
     desc: 'Connect to the database'
+    aliases: ['cdb']
     cmds:
       - docker compose exec postgres psql postgres://username:password@postgres:5432/db
+
   createUser:
     desc: 'Create a new user'
     cmds:
       - docker compose exec -T postgres psql postgres://username:password@postgres:5432/db -c \
-        "INSERT INTO \"user\"(api_key, email) VALUES ('fc1e4352-b7f0-45e0-b510-74cb1d68a913'::uuid, 'test@test.com') ON CONFLICT (email) DO NOTHING RETURNING *;" \
+        "INSERT INTO users(api_key, email) VALUES ('{{.API_KEY}}'::uuid, 'test@test.com') ON CONFLICT (email) DO NOTHING RETURNING *;" \
         > /dev/null 2>&1
-      - echo "Test API Key is fc1e4352-b7f0-45e0-b510-74cb1d68a913"
-  checkHealth:
-    desc: 'Check the health of the application'
+      - echo "Test API Key is {{.API_KEY}}"
+
+  copyKey:
+    aliases: ['ck']
+    desc: 'Copy the API key to the clipboard'
     cmds:
-      - ./bin/wait-for-api.sh
+      - task: createUser
+      - echo "{{.API_KEY}}" | pbcopy
+      - echo "API Key copied to clipboard"
+
   truncateDb:
     desc: 'Truncate the database'
     cmds:
       - docker compose exec -T postgres psql postgres://username:password@postgres:5432/db -c \
-        "TRUNCATE TABLE \"memory\" CASCADE; TRUNCATE TABLE \"user\" CASCADE;"
+        "TRUNCATE TABLE \"memory\" CASCADE; TRUNCATE TABLE \"users\" CASCADE;"
+
   resetDb:
     desc: 'Reset the database'
     cmds:
       - task: truncateDb
       - task: createUser
+
+  # Development Tools
+  # Tasks for development utilities, such as checking application health and schema.
+  checkHealth:
+    desc: 'Check the health of the application'
+    cmds:
+      - ./bin/wait-for-api.sh
+
+  schemaCheck:
+    desc: 'Check the schema'
+    cmds:
+      - docker-compose exec api npm run typeorm -- schema:log
+
+  ssh:
+    desc: 'SSH into the container'
+    cmds:
+      - docker-compose exec api sh

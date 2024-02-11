@@ -1,5 +1,5 @@
 import { User } from '../../../../domain/user';
-import { UserRecord } from '../../user.table-definition';
+import { UserRecord } from '../../tables/user.table-definition';
 
 export function toDomain(memoryRecord: UserRecord): User {
   return new User(memoryRecord);
