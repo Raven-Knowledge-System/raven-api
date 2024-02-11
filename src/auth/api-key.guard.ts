@@ -17,7 +17,7 @@ export class ApiKeyGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const apiKey = request.headers['corvidae-api-key'];
+    const apiKey = request.headers['raven-api-key'];
 
     if (!apiKey) {
       throw new UnauthorizedException('API key is missing');

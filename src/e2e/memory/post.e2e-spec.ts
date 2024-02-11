@@ -5,7 +5,7 @@ describe.skip('POST v1/memory/', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'corvidae-api-key': apiKey,
+        'raven-api-key': apiKey,
       },
       body: JSON.stringify({
         url: 'https://example.com/blah',
@@ -26,7 +26,7 @@ describe.skip('POST v1/memory/', () => {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        'corvidae-api-key': apiKey,
+        'raven-api-key': apiKey,
       },
     });
   });

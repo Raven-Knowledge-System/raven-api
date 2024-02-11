@@ -7,7 +7,7 @@ describe.skip('GET v1/memory', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'corvidae-api-key': apiKey,
+          'raven-api-key': apiKey,
         },
         body: JSON.stringify({
           url: 'https://example.com',
@@ -19,7 +19,7 @@ describe.skip('GET v1/memory', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'corvidae-api-key': apiKey,
+          'raven-api-key': apiKey,
         },
         body: JSON.stringify({
           url: 'https://example.com/another',
@@ -33,7 +33,7 @@ describe.skip('GET v1/memory', () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'corvidae-api-key': apiKey,
+        'raven-api-key': apiKey,
       },
     });
 
@@ -47,7 +47,7 @@ describe.skip('GET v1/memory', () => {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
-            'corvidae-api-key': apiKey,
+            'raven-api-key': apiKey,
           },
         }),
       ),
