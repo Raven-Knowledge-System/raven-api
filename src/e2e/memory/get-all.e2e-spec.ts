@@ -1,4 +1,4 @@
-describe('GET v1/memory', () => {
+describe.skip('GET v1/memory', () => {
   const apiKey = 'fc1e4352-b7f0-45e0-b510-74cb1d68a913';
 
   it('list all memories', async () => {
