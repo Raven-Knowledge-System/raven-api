@@ -20,15 +20,15 @@ import {
 } from '@nestjs/swagger';
 import { ApiKeyGuard } from 'auth/api-key.guard';
 import { AuthenticatedUser } from 'auth/authenticated-user.decorator';
-import { MemoryDeleteService } from 'memory/domain/services/memory-delete.service';
+import { MemoryDeleteService } from 'memory/application/services/memory-delete.service';
 import { StatusCodes } from 'http-status-codes';
 import { AutoMemoryPostDto } from './dto/auto-article.post.dto';
-import { ArticleExistsChecker } from 'memory/domain/services/article-exists-checker';
-import { ArticleAiCreator } from 'memory/domain/services/article-ai-creator';
+import { ArticleExistsChecker } from 'memory/application/services/article-exists-checker';
+import { ArticleAiCreator } from 'memory/application/services/article-ai-creator';
 import { ArticlePostDto } from './dto/article.post.dto';
 import { ArticleDto } from './dto/article.dto';
-import { ArticleCreateService } from 'memory/domain/services/article-create.service';
-import { ArticleGetAllService } from 'memory/domain/services/article-get-all.service';
+import { ArticleCreateService } from 'memory/application/services/article-create.service';
+import { ArticleGetAllService } from 'memory/application/services/article-get-all.service';
 
 @ApiTags('Article')
 @Injectable()

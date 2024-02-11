@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type InferCause<E extends Error | BaseError<any>> = [E] extends [
   BaseError<infer Cause>,
 ]

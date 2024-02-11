@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { MemoryRepositoryPort } from 'memory/infra/db/ports/memory.repository.port';
+import { MemoryRepositoryPort } from 'memory/domain/ports/memory.repository.port';
 
 @Injectable()
 export class MemoryDeleteService {

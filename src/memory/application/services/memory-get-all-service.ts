@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { MemoryRepositoryPort } from 'memory/infra/db/ports/memory.repository.port';
-import { Memory } from '../entities/memory';
+import { MemoryRepositoryPort } from 'memory/domain/ports/memory.repository.port';
+import { Memory } from '../../domain/entities/memory';
 
 @Injectable()
 export class MemoryGetAllService {

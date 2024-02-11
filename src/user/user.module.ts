@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { UserRepositoryPort } from './infra/db/ports/user.port';
+import { UserRepositoryPort } from './domain/ports/user.port';
 import { UserTypeOrmRepository } from './infra/db/repositories/user.repository';
 import { UserRecord } from './infra/db/tables/user.table-definition';
 import { TypeOrmModule } from '@nestjs/typeorm';

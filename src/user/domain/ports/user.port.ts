@@ -1,5 +1,5 @@
 import { Nullable } from 'lib/nullable';
-import { User } from '../../../domain/user';
+import { User } from '../user';
 
 export abstract class UserRepositoryPort {
   abstract create(memory: User): Promise<User>;

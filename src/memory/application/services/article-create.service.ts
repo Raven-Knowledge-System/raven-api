@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { ArticleRepositoryPort } from 'memory/infra/db/ports/article.repository.port';
-import { ArticleFactory } from '../factories/article.factory';
-import { Article } from '../entities/article';
+import { ArticleRepositoryPort } from 'memory/domain/ports/article.repository.port';
+import { ArticleFactory } from '../../domain/factories/article.factory';
+import { Article } from '../../domain/entities/article';
 
 type ArticleInputs = {
   title: string;

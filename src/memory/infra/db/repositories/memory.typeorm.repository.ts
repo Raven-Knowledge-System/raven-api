@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { MemoryRecord } from '../tables/memory.table-definition';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MemoryRepositoryPort } from '../ports/memory.repository.port';
+import { MemoryRepositoryPort } from '../../../domain/ports/memory.repository.port';
 import { Memory } from 'memory/domain/entities/memory';
 import { Nullable } from 'lib/nullable';
 import { toDomain, toPersistence } from '../mappers/memory.mapper';

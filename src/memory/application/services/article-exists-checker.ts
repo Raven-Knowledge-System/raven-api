@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ArticleRepositoryPort } from 'memory/infra/db/ports/article.repository.port';
+import { ArticleRepositoryPort } from 'memory/domain/ports/article.repository.port';
 
 @Injectable()
 export class ArticleExistsChecker {
