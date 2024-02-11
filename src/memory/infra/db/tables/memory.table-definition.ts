@@ -29,7 +29,7 @@ export class MemoryRecord {
   readonly user!: UserRecord;
 
   @OneToOne(() => ContentRecord, (content) => content.memories, {
-    cascade: ['insert', 'remove'],
+    cascade: ['insert'],
   })
   // @JoinColumn({
   //   name: 'content_uuid',

@@ -37,4 +37,13 @@ export class ArticleTypeormRepository implements ArticleRepositoryPort {
 
     return memory ? toDomain(memory) : null;
   }
+
+  async findAllForUser(userUuid: string): Promise<Article[]> {
+    const memories = await this.memoryDb.find({
+      where: { user: { uuid: userUuid } },
+      relations: ['content', 'user'],
+    });
+
+    return memories.map(toDomain);
+  }
 }

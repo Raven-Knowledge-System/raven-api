@@ -38,7 +38,11 @@ paths:
       parameters: []
       responses:
         "200":
-          description: ""
+          description: " A list of the user's memories."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArticleDto"
       tags: &a2
         - Article
     post:
@@ -58,7 +62,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/MemoryResponseDto"
+                $ref: "#/components/schemas/ArticleDto"
       tags: *a2
   /v1/memories/articles/auto:
     post:
@@ -78,12 +82,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/MemoryResponseDto"
+                $ref: "#/components/schemas/ArticleDto"
       tags: *a2
   /v1/memories/articles/{uuid}:
     delete:
       operationId: ArticleV1Controller_deleteMemory
-      summary: Delete Memory
+      summary: Delete article
       parameters:
         - name: uuid
           required: true
@@ -103,6 +107,41 @@ tags: []
 servers: []
 components:
   schemas:
+    ArticleDto:
+      type: object
+      properties:
+        uuid:
+          type: string
+          example: ac47bd67-242b-4d0c-929c-a3127b9c5232
+          description: The unique identifier of the article.
+        title:
+          type: string
+          example: A raven's memories are for the future
+          description: The title of the article
+        createdAt:
+          format: date-time
+          type: string
+          example: 2021-08-01T00:00:00.000Z
+          description: The date the article was created
+        url:
+          type: string
+          example: https://pubmed.ncbi.nlm.nih.gov/28706023/
+          description: The url to the article
+        summary:
+          type: string
+          example: The summary of the article
+          description: The summary of the article
+        author:
+          type: string
+          example: Markus Boeckle, Nicola S Clayton
+          description: The author of the article
+      required:
+        - uuid
+        - title
+        - createdAt
+        - url
+        - summary
+        - author
     AutoMemoryPostDto:
       type: object
       properties:
@@ -112,26 +151,6 @@ components:
           description: The url to the memory
       required:
         - url
-    MemoryResponseDto:
-      type: object
-      properties:
-        uuid:
-          type: string
-          example: uuid
-          description: The unique identifier of the memory.
-        title:
-          type: string
-          example: This is a memory
-          description: The title of the memory
-        createdAt:
-          format: date-time
-          type: string
-          example: 2021-08-01T00:00:00.000Z
-          description: The summary of the memory
-      required:
-        - uuid
-        - title
-        - createdAt
     ArticlePostDto:
       type: object
       properties:

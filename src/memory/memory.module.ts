@@ -18,9 +18,13 @@ import { ArticleTypeormRepository } from './infra/db/repositories/article.typeor
 import { ArticleV1Controller } from './application/api/article.controller.v1';
 import { ArticleExistsChecker } from './domain/services/article-exists-checker';
 import { ArticleCreateService } from './domain/services/article-create.service';
+import { ArticleGetAllService } from './domain/services/article-get-all.service';
+import { ContentRecord } from './infra/db/tables/content.table-definition';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([MemoryRecord, UserRecord])],
+  imports: [
+    TypeOrmModule.forFeature([MemoryRecord, UserRecord, ContentRecord]),
+  ],
   providers: [
     {
       provide: MemoryRepositoryPort,
@@ -44,6 +48,7 @@ import { ArticleCreateService } from './domain/services/article-create.service';
     MemoryGetAllService,
     ArticleExistsChecker,
     ArticleCreateService,
+    ArticleGetAllService,
   ],
   controllers: [MemoryV1Controller, ArticleV1Controller],
 })

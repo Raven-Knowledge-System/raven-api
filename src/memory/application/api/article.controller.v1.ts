@@ -12,19 +12,23 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { MemoryResponseDto } from './dto/memory.response.dto';
+import {
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { ApiKeyGuard } from 'auth/api-key.guard';
 import { AuthenticatedUser } from 'auth/authenticated-user.decorator';
-import { MemoryDeleteService as DeleteMemoryService } from 'memory/domain/services/memory-delete.service';
+import { MemoryDeleteService } from 'memory/domain/services/memory-delete.service';
 import { StatusCodes } from 'http-status-codes';
-import { MemoryGetAllService } from 'memory/domain/services/memory-get-all-service';
 import { AutoMemoryPostDto } from './dto/auto-article.post.dto';
 import { ArticleExistsChecker } from 'memory/domain/services/article-exists-checker';
 import { ArticleAiCreator } from 'memory/domain/services/article-ai-creator';
 import { ArticlePostDto } from './dto/article.post.dto';
 import { ArticleDto } from './dto/article.dto';
 import { ArticleCreateService } from 'memory/domain/services/article-create.service';
+import { ArticleGetAllService } from 'memory/domain/services/article-get-all.service';
 
 @ApiTags('Article')
 @Injectable()
@@ -36,8 +40,8 @@ import { ArticleCreateService } from 'memory/domain/services/article-create.serv
 export class ArticleV1Controller {
   constructor(
     private readonly existsChecker: ArticleExistsChecker,
-    private readonly deleteService: DeleteMemoryService,
-    private readonly getAllService: MemoryGetAllService,
+    private readonly deleteService: MemoryDeleteService,
+    private readonly getAllService: ArticleGetAllService,
     private readonly createUsingAiService: ArticleAiCreator,
     private readonly createService: ArticleCreateService,
   ) {}
@@ -46,11 +50,15 @@ export class ArticleV1Controller {
   @ApiOperation({
     summary: 'Get All Articles',
   })
+  @ApiOkResponse({
+    type: ArticleDto,
+    description: " A list of the user's memories.",
+  })
   async getAllMemories(
     @AuthenticatedUser() userUuid: string,
-  ): Promise<MemoryResponseDto[]> {
+  ): Promise<ArticleDto[]> {
     return (await this.getAllService.getAll(userUuid)).map(
-      (memory) => new MemoryResponseDto(memory),
+      (article) => new ArticleDto(article),
     );
   }
 
@@ -60,15 +68,15 @@ export class ArticleV1Controller {
     description: 'Uses AI to generate a memory from a url.',
   })
   @ApiCreatedResponse({
-    type: MemoryResponseDto,
+    type: ArticleDto,
     description: 'The memory was created successfully.',
   })
   async postMemoryAuto(
     @AuthenticatedUser() userUuid: string,
     @Body() dto: AutoMemoryPostDto,
-  ): Promise<MemoryResponseDto> {
+  ): Promise<ArticleDto> {
     await this.throwIfExists(userUuid, dto.url);
-    return new MemoryResponseDto(
+    return new ArticleDto(
       await this.createUsingAiService.create(userUuid, dto.url),
     );
   }
@@ -79,7 +87,7 @@ export class ArticleV1Controller {
     description: 'Uses AI to generate a memory from a url.',
   })
   @ApiCreatedResponse({
-    type: MemoryResponseDto,
+    type: ArticleDto,
     description: 'The memory was created successfully.',
   })
   async postMemory(
@@ -92,7 +100,7 @@ export class ArticleV1Controller {
 
   @Delete('/:uuid')
   @ApiOperation({
-    summary: 'Delete Memory',
+    summary: 'Delete article',
   })
   @HttpCode(StatusCodes.NO_CONTENT)
   async deleteMemory(

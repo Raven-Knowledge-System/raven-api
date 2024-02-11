@@ -6,6 +6,7 @@ import { MemoryRepositoryPort } from '../ports/memory.repository.port';
 import { Memory } from 'memory/domain/entities/memory';
 import { Nullable } from 'lib/nullable';
 import { toDomain, toPersistence } from '../mappers/memory.mapper';
+import { ContentRecord } from '../tables/content.table-definition';
 
 // TODO: probably won't be able to scale getting all
 // the memories of a user with this approach. Start with
@@ -14,15 +15,15 @@ import { toDomain, toPersistence } from '../mappers/memory.mapper';
 export class MemoryTypeormRepository implements MemoryRepositoryPort {
   constructor(
     @InjectRepository(MemoryRecord)
-    private readonly db: Repository<MemoryRecord>,
+    private readonly memoryDb: Repository<MemoryRecord>,
   ) {}
 
   async create(memory: Memory): Promise<Memory> {
-    return toDomain(await this.db.save(toPersistence(memory)));
+    return toDomain(await this.memoryDb.save(toPersistence(memory)));
   }
 
   async findByUuid(uuid: string): Promise<Nullable<Memory>> {
-    const memoryRecord = await this.db.findOne({
+    const memoryRecord = await this.memoryDb.findOne({
       where: { uuid },
       relations: ['user', 'content'],
     });
@@ -30,11 +31,19 @@ export class MemoryTypeormRepository implements MemoryRepositoryPort {
   }
 
   async delete(uuid: string): Promise<void> {
-    await this.db.delete({ uuid });
+    const memory = await this.memoryDb.findOne({
+      where: { uuid },
+      relations: ['content'],
+    });
+
+    this.memoryDb.manager.transaction(async (trx) => {
+      await trx.delete(ContentRecord, { uuid: memory?.content.uuid });
+      await trx.delete(MemoryRecord, { uuid });
+    });
   }
 
   async findAllByUserUuid(userUuid: string): Promise<Memory[]> {
-    const memoryRecords = await this.db.find({
+    const memoryRecords = await this.memoryDb.find({
       where: { user: { uuid: userUuid } },
       relations: ['user', 'content'],
     });
