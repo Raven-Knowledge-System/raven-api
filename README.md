@@ -7,7 +7,7 @@
 
 ## Description
 
-Corvidae is a knowledge management tool that leverages ai to summarize and organize articles. It allows users to save articles, automatically generate summaries, and tag content for easy searching later. The tool supports both local and external database storage options, making it versatile for different user needs.
+Raven is a knowledge management tool that leverages ai to summarize and organize articles. It allows users to save articles, automatically generate summaries, and tag content for easy searching later. The tool supports both local and external database storage options, making it versatile for different user needs.
 
 ## Installation
 
