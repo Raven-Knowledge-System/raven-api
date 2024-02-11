@@ -31,10 +31,6 @@ export class MemoryRecord {
   @OneToOne(() => ContentRecord, (content) => content.memories, {
     cascade: ['insert'],
   })
-  // @JoinColumn({
-  //   name: 'content_uuid',
-  //   foreignKeyConstraintName: 'fk_content_memory',
-  // })
   content!: ContentRecord;
 
   @CreateDateColumn()

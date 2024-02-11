@@ -22,8 +22,6 @@ describe.skip('POST v1/memory/', () => {
       url: 'https://example.com/blah',
     });
 
-    // fetch to delete previous article
-
     await fetch(`http://localhost:3000/v1/memory/${saved.uuid}`, {
       method: 'DELETE',
       headers: {
