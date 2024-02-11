@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsUrl } from 'class-validator';
 
-export class MemoryPostDto {
+export class ArticlePostDto {
   @ApiProperty({
     example: 'https://pubmed.ncbi.nlm.nih.gov/15114002/',
     description: 'The url to the memory',

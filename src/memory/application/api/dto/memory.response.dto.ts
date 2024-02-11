@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Memory } from 'memory/domain/entities/memory';
 
-// add all memory properties w/ apiProperty
 export class MemoryResponseDto {
   constructor(props: Memory) {
     this.uuid = props.uuid;

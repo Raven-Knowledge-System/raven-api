@@ -15,22 +15,24 @@ export class ArticleTypeormRepository implements ArticleRepositoryPort {
   ) {}
 
   async create(article: Article): Promise<Article> {
-    return toDomain(await this.memoryDb.save(toPersistence(article)));
+    const saved = await this.memoryDb.save(toPersistence(article));
+    return toDomain(saved);
   }
 
   async findByUrl(userUuid: string, url: string): Promise<Nullable<Article>> {
     const memory = await this.memoryDb.findOne({
       where: { user: { uuid: userUuid }, content: { url } },
-      relations: ['content'],
+      relations: ['content', 'user'],
     });
 
+    console.log('found', { memory });
     return memory ? toDomain(memory) : null;
   }
 
   async findByUuid(uuid: string): Promise<Nullable<Article>> {
     const memory = await this.memoryDb.findOne({
       where: { uuid },
-      relations: ['content'],
+      relations: ['content', 'user'],
     });
 
     return memory ? toDomain(memory) : null;

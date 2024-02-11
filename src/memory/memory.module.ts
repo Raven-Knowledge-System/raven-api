@@ -6,7 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MemoryRecord } from './infra/db/tables/memory.table-definition';
 import { SummaryRepositoryPort } from './infra/db/ports/summary.repository.port';
 import { SummarizerOpenAiService } from './infra/db/adapters/summarizer.openai.adapter';
-import { ArticleAiCreate } from './domain/services/article-ai-create';
+import { ArticleAiCreator } from './domain/services/article-ai-creator';
 import { UserRecord } from 'user/infra/db/tables/user.table-definition';
 import { UserRepositoryPort } from 'user/infra/db/ports/user.port';
 import { UserTypeOrmRepository } from 'user/infra/db/repositories/user.repository';
@@ -17,6 +17,7 @@ import { ArticleRepositoryPort } from './infra/db/ports/article.repository.port'
 import { ArticleTypeormRepository } from './infra/db/repositories/article.typeorm.repository';
 import { ArticleV1Controller } from './application/api/article.controller.v1';
 import { ArticleExistsChecker } from './domain/services/article-exists-checker';
+import { ArticleCreateService } from './domain/services/article-create.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([MemoryRecord, UserRecord])],
@@ -37,11 +38,12 @@ import { ArticleExistsChecker } from './domain/services/article-exists-checker';
       provide: UserRepositoryPort,
       useClass: UserTypeOrmRepository,
     },
-    ArticleAiCreate,
+    ArticleAiCreator,
     MemoryExistsChecker,
     MemoryDeleteService,
     MemoryGetAllService,
     ArticleExistsChecker,
+    ArticleCreateService,
   ],
   controllers: [MemoryV1Controller, ArticleV1Controller],
 })

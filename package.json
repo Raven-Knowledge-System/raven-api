@@ -84,7 +84,7 @@
     "lint": "eslint \"{src,apps,libs,e2e}/**/*.ts\" --fix",
     "prepare": "husky",
     "start": "nest start",
-    "start:debug": "nest start --watch --config nest-cli.json --debug 0.0.0.0:9229",
+    "start:debug": "nest start --watch --config nest-cli.json --debug 0.0.0.0:9234",
     "start:dev": "nest start --watch",
     "start:prod": "node dist/main",
     "test:cov": "jest --coverage",

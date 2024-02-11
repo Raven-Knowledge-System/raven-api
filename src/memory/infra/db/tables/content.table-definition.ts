@@ -1,4 +1,3 @@
-import { IsISBN, IsIn, IsOptional, IsString, IsUrl } from 'class-validator';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -10,6 +9,14 @@ import {
 import { MemoryRecord } from './memory.table-definition';
 import { Nullable } from 'lib/nullable';
 import { MemoryType, MemoryTypes } from 'memory/domain/types';
+import {
+  IsISBN,
+  IsIn,
+  IsOptional,
+  IsString,
+  IsUUID,
+  IsUrl,
+} from 'class-validator';
 
 @Entity('content')
 export class ContentRecord {
@@ -20,6 +27,7 @@ export class ContentRecord {
   @PrimaryGeneratedColumn('uuid', {
     primaryKeyConstraintName: 'pk_content',
   })
+  @IsUUID(4)
   uuid!: string;
 
   @Column()
@@ -28,7 +36,7 @@ export class ContentRecord {
   type!: MemoryType;
 
   @Column('text')
-  @IsUrl()
+  @IsString()
   title!: string;
 
   @Column({ nullable: false })

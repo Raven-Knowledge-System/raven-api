@@ -21,13 +21,16 @@ import { StatusCodes } from 'http-status-codes';
 import { MemoryGetAllService } from 'memory/domain/services/memory-get-all-service';
 import { AutoMemoryPostDto } from './dto/auto-article.post.dto';
 import { ArticleExistsChecker } from 'memory/domain/services/article-exists-checker';
-import { ArticleAiCreate } from 'memory/domain/services/article-ai-create';
+import { ArticleAiCreator } from 'memory/domain/services/article-ai-creator';
+import { ArticlePostDto } from './dto/article.post.dto';
+import { ArticleDto } from './dto/article.dto';
+import { ArticleCreateService } from 'memory/domain/services/article-create.service';
 
 @ApiTags('Article')
 @Injectable()
 @Controller({
   version: '1',
-  path: '/memory/articles',
+  path: '/memories/articles',
 })
 @UseGuards(ApiKeyGuard)
 export class ArticleV1Controller {
@@ -35,7 +38,8 @@ export class ArticleV1Controller {
     private readonly existsChecker: ArticleExistsChecker,
     private readonly deleteService: DeleteMemoryService,
     private readonly getAllService: MemoryGetAllService,
-    private readonly createUsingAiService: ArticleAiCreate,
+    private readonly createUsingAiService: ArticleAiCreator,
+    private readonly createService: ArticleCreateService,
   ) {}
 
   @Get('/')
@@ -65,8 +69,25 @@ export class ArticleV1Controller {
   ): Promise<MemoryResponseDto> {
     await this.throwIfExists(userUuid, dto.url);
     return new MemoryResponseDto(
-      await this.createUsingAiService.createUsingAi(userUuid, dto.url),
+      await this.createUsingAiService.create(userUuid, dto.url),
     );
+  }
+
+  @Post('/')
+  @ApiOperation({
+    summary: 'Create Memory',
+    description: 'Uses AI to generate a memory from a url.',
+  })
+  @ApiCreatedResponse({
+    type: MemoryResponseDto,
+    description: 'The memory was created successfully.',
+  })
+  async postMemory(
+    @AuthenticatedUser() userUuid: string,
+    @Body() dto: ArticlePostDto,
+  ): Promise<ArticleDto> {
+    await this.throwIfExists(userUuid, dto.url);
+    return new ArticleDto(await this.createService.create(userUuid, dto));
   }
 
   @Delete('/:uuid')
@@ -77,13 +98,12 @@ export class ArticleV1Controller {
   async deleteMemory(
     @Param('uuid', new ParseUUIDPipe()) uuid: string,
   ): Promise<void> {
-    console.log('uuid', uuid);
     await this.throw404IfNotFound(uuid);
     await this.deleteService.deleteByUuid(uuid);
   }
 
   private async throwIfExists(userUuid: string, url: string): Promise<void> {
-    if (!(await this.existsChecker.existsByUrl(userUuid, url))) {
+    if (await this.existsChecker.existsByUrl(userUuid, url)) {
       throw new ConflictException('Article already exists for user');
     }
   }

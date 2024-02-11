@@ -1,14 +1,12 @@
 import { IsIn, IsString, IsUUID } from 'class-validator';
 import { BaseEntity } from 'lib/base-entity';
-import { validate } from 'lib/validate';
 import { MemoryType, MemoryTypes } from '../types';
-import { Nullable } from 'lib/nullable';
 
 export type MemoryCreateProps = {
   uuid?: string;
   type: MemoryType;
   title: string;
-  author: Nullable<string>;
+  author: string;
   userUuid: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -25,7 +23,7 @@ export class Memory extends BaseEntity {
   readonly title: string;
 
   @IsString()
-  readonly author: Nullable<string>;
+  readonly author: string;
 
   constructor(createProps: MemoryCreateProps) {
     const { uuid, createdAt, updatedAt } = createProps;
@@ -33,8 +31,6 @@ export class Memory extends BaseEntity {
     this.type = createProps.type;
     this.userUuid = createProps.userUuid;
     this.title = createProps.title;
-    this.author = createProps.author ?? null;
-
-    validate(this);
+    this.author = createProps.author;
   }
 }

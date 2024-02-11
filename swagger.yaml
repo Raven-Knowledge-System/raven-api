@@ -31,7 +31,7 @@ paths:
         "204":
           description: ""
       tags: *a1
-  /v1/memory/articles:
+  /v1/memories/articles:
     get:
       operationId: ArticleV1Controller_getAllMemories
       summary: Get All Articles
@@ -41,7 +41,26 @@ paths:
           description: ""
       tags: &a2
         - Article
-  /v1/memory/articles/auto:
+    post:
+      operationId: ArticleV1Controller_postMemory
+      summary: Create Memory
+      description: Uses AI to generate a memory from a url.
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ArticlePostDto"
+      responses:
+        "201":
+          description: The memory was created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MemoryResponseDto"
+      tags: *a2
+  /v1/memories/articles/auto:
     post:
       operationId: ArticleV1Controller_postMemoryAuto
       summary: Auto Create Memory
@@ -61,7 +80,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/MemoryResponseDto"
       tags: *a2
-  /v1/memory/articles/{uuid}:
+  /v1/memories/articles/{uuid}:
     delete:
       operationId: ArticleV1Controller_deleteMemory
       summary: Delete Memory
@@ -113,3 +132,27 @@ components:
         - uuid
         - title
         - createdAt
+    ArticlePostDto:
+      type: object
+      properties:
+        url:
+          type: string
+          example: https://pubmed.ncbi.nlm.nih.gov/15114002/
+          description: The url to the memory
+        title:
+          type: string
+          example: The title of the memory
+          description: The title of the memory
+        summary:
+          type: string
+          example: The summary of the memory
+          description: The summary of the memory
+        author:
+          type: string
+          example: Jane Doe
+          description: The author of the memory
+      required:
+        - url
+        - title
+        - summary
+        - author

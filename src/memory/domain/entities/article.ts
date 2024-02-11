@@ -1,5 +1,4 @@
 import { IsString, IsUrl } from 'class-validator';
-import { validate } from 'lib/validate';
 import { Memory } from './memory';
 import { MemoryTypes } from '../types';
 
@@ -16,13 +15,7 @@ export type ArticleCreateProps = {
 
 export class Article extends Memory {
   @IsString()
-  readonly author: string;
-
-  @IsString()
   readonly summary: string;
-
-  @IsString()
-  readonly title: string;
 
   @IsUrl()
   readonly url: string;
@@ -38,11 +31,7 @@ export class Article extends Memory {
       userUuid,
       type: MemoryTypes.Article,
     });
-    this.author = createProps.author;
     this.summary = createProps.summary;
     this.url = createProps.url;
-    this.title = createProps.title;
-
-    validate(this);
   }
 }

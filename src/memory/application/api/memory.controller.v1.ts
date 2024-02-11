@@ -44,25 +44,6 @@ export class MemoryV1Controller {
     );
   }
 
-  // @Post('/auto')
-  // @ApiOperation({
-  //   summary: 'Auto Create Memory',
-  //   description: 'Uses AI to generate a memory from a url.',
-  // })
-  // @ApiCreatedResponse({
-  //   type: MemoryResponseDto,
-  //   description: 'The memory was created successfully.',
-  // })
-  // async postMemoryAuto(
-  //   @AuthenticatedUser() userUuid: string,
-  //   @Body() dto: AutoMemoryPostDto,
-  // ): Promise<MemoryResponseDto> {
-  //   await this.throwIfExists(userUuid, dto.url);
-  //   return new MemoryResponseDto(
-  //     await this.createUsingAiService.createUsingAi(userUuid, dto.url),
-  //   );
-  // }
-
   @Delete('/:uuid')
   @ApiOperation({
     summary: 'Delete Memory',
@@ -71,7 +52,6 @@ export class MemoryV1Controller {
   async deleteMemory(
     @Param('uuid', new ParseUUIDPipe()) uuid: string,
   ): Promise<void> {
-    console.log('uuid', uuid);
     await this.throw404IfNotFound(uuid);
     await this.deleteService.deleteByUuid(uuid);
   }
