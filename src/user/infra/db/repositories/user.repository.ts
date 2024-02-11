@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm';
-import { UserRepositoryPort } from '../ports/user.port';
+import { UserRepositoryPort } from '../../../domain/ports/user.port';
 import { UserRecord } from '../tables/user.table-definition';
 import { toDomain, toPersistence } from './mappers/user.mapper';
 import { User } from '../../../domain/user';

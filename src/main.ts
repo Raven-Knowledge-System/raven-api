@@ -5,9 +5,16 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import yaml from 'yaml';
 import path from 'path';
 import * as fs from 'fs';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter(),
+  );
 
   const config = new DocumentBuilder().setTitle('Raven').build();
 
@@ -29,6 +36,6 @@ async function bootstrap() {
       forbidUnknownValues: true,
     }),
   );
-  await app.listen(3000);
+  await app.listen(3000, '0.0.0.0');
 }
 bootstrap();

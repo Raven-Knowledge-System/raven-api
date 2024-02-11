@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ArticleRepositoryPort } from 'memory/infra/db/ports/article.repository.port';
-import { Article } from '../entities/article';
+import { ArticleRepositoryPort } from 'memory/domain/ports/article.repository.port';
+import { Article } from '../../domain/entities/article';
 
 @Injectable()
 export class ArticleGetAllService {

@@ -13,10 +13,10 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { MemoryResponseDto } from './dto/memory.response.dto';
 import { ApiKeyGuard } from 'auth/api-key.guard';
 import { AuthenticatedUser } from 'auth/authenticated-user.decorator';
-import { MemoryExistsChecker as MemoryExistsChecker } from 'memory/domain/services/memory-exists-checker.service';
-import { MemoryDeleteService as DeleteMemoryService } from 'memory/domain/services/memory-delete.service';
+import { MemoryExistsChecker as MemoryExistsChecker } from 'memory/application/services/memory-exists-checker.service';
+import { MemoryDeleteService as DeleteMemoryService } from 'memory/application/services/memory-delete.service';
 import { StatusCodes } from 'http-status-codes';
-import { MemoryGetAllService } from 'memory/domain/services/memory-get-all-service';
+import { MemoryGetAllService } from 'memory/application/services/memory-get-all-service';
 
 @ApiTags('Memory')
 @Injectable()

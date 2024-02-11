@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ChatOpenAI } from '@langchain/openai';
 import { ChatPromptTemplate } from 'langchain/prompts';
 import { ConfigService } from '@nestjs/config';
-import { SummaryRepositoryPort } from '../ports/summary.repository.port';
+import { SummaryRepositoryPort } from '../../../domain/ports/summary.repository.port';
 import { StructuredOutputParser } from 'langchain/output_parsers';
 import { z } from 'zod';
 

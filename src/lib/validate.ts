@@ -6,6 +6,7 @@ export const validate = <T, E extends Error>(
   entity: T,
   err?: (errors: ValidationError[]) => E,
 ): void => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const validationErrors = validateSync(entity as any);
   if (validationErrors.length > 0) {
     throw (

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ArticleRepositoryPort } from '../ports/article.repository.port';
+import { ArticleRepositoryPort } from '../../../domain/ports/article.repository.port';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MemoryRecord } from '../tables/memory.table-definition';
 import { Repository } from 'typeorm';
