@@ -98,6 +98,36 @@ paths:
         "204":
           description: ""
       tags: *a2
+  /v1/test/users:
+    post:
+      operationId: UsersTestV1Controller_registerTestUser
+      summary: ""
+      description: Register a test user
+      parameters: []
+      responses:
+        "201":
+          description: The test user has been registered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TestUserDto"
+      tags: &a3
+        - Test
+  /v1/test/users/{uuid}:
+    delete:
+      operationId: UsersTestV1Controller_deleteTestUser
+      summary: ""
+      description: Delete a test user
+      parameters:
+        - name: uuid
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "204":
+          description: ""
+      tags: *a3
 info:
   title: Raven
   description: ""
@@ -175,3 +205,22 @@ components:
         - title
         - summary
         - author
+    TestUserDto:
+      type: object
+      properties:
+        email:
+          type: string
+          example: test@test.com
+          description: The email of the test user
+        apiKey:
+          type: string
+          example: aad91f3e-7d83-429e-8acd-c44c177f3933
+          description: The apiKey of the test user
+        uuid:
+          type: string
+          example: aad91f3e-7d83-429e-8acd-c44c177f3933
+          description: The uuid of the test user
+      required:
+        - email
+        - apiKey
+        - uuid

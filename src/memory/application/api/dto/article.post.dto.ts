@@ -27,5 +27,6 @@ export class ArticlePostDto {
     example: 'Jane Doe',
     description: 'The author of the memory',
   })
+  @IsString()
   readonly author!: string;
 }

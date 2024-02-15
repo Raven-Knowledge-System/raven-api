@@ -9,7 +9,7 @@ import { SummarizerOpenAiService } from './infra/db/adapters/summarizer.openai.a
 import { ArticleAiCreator } from './application/services/article-ai-creator';
 import { UserRecord } from 'user/infra/db/tables/user.table-definition';
 import { UserRepositoryPort } from 'user/domain/ports/user.port';
-import { UserTypeOrmRepository } from 'user/infra/db/repositories/user.repository';
+import { UserTypeOrmRepository } from 'user/infra/db/repositories/user.typeorm-repository';
 import { MemoryExistsChecker } from './application/services/memory-exists-checker.service';
 import { MemoryDeleteService } from './application/services/memory-delete.service';
 import { MemoryGetAllService } from './application/services/memory-get-all-service';

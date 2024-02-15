@@ -94,4 +94,4 @@ tasks:
   testE2e:
     desc: 'Run end-to-end tests'
     cmds:
-      - docker compose exec -T api npm run test:e2e
+      - npm run test:e2e
