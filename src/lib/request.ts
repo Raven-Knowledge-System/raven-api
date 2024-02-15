@@ -10,6 +10,7 @@ export class RequestClient {
   ): RequestClient {
     return new RequestClient(baseUrl, customHeaders || {});
   }
+
   async get<T>(path: string): Promise<T> {
     const response = await fetch(`${this.baseUrl}${path}`, {
       headers: {
@@ -17,6 +18,7 @@ export class RequestClient {
         ...this.customHeaders,
       },
     });
+
     return response.json();
   }
 

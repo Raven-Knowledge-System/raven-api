@@ -1,5 +1,5 @@
 import { getTestUser } from 'e2e/lib/get-test-user';
-import { RequestClient } from 'lib/request-factory';
+import { RequestClient } from 'lib/request';
 
 describe('DELETE v1/memory/articles/{uuid}', () => {
   let user: { uuid: string; apiKey: string };
