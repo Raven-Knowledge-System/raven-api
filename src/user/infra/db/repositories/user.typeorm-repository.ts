@@ -3,9 +3,12 @@ import { UserRepositoryPort } from '../../../domain/ports/user.port';
 import { UserRecord } from '../tables/user.table-definition';
 import { toDomain, toPersistence } from './mappers/user.mapper';
 import { User } from '../../../domain/user';
+import { InjectRepository } from '@nestjs/typeorm';
 
 export class UserTypeOrmRepository implements UserRepositoryPort {
-  constructor(private readonly db: Repository<UserRecord>) {}
+  constructor(
+    @InjectRepository(UserRecord) private readonly db: Repository<UserRecord>,
+  ) {}
 
   async create(user: User): Promise<User> {
     return toDomain(await this.db.save(toPersistence(user)));
@@ -24,5 +27,10 @@ export class UserTypeOrmRepository implements UserRepositoryPort {
   async findByApiKey(apiKey: string): Promise<User | null> {
     const userRecord = await this.db.findOne({ where: { apiKey } });
     return userRecord ? toDomain(userRecord) : null;
+  }
+
+  // Only for testing purposes
+  async delete(uuid: string): Promise<void> {
+    await this.db.delete({ uuid });
   }
 }

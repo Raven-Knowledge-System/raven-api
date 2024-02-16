@@ -1,15 +1,7 @@
-import { getTestApplication } from './lib/get-test-application';
-
-// TODO: not sure why this is responding w/ a 404.g
-describe.skip('AppController (e2e)', () => {
+describe('AppController (e2e)', () => {
   it('GET /v1)', async () => {
-    const res = await (
-      await getTestApplication()
-    ).inject({
-      method: 'get',
-      url: '/v1',
-    });
+    const res = await fetch('http://localhost:3000/v1');
 
-    expect(res.statusCode).toBe(200);
+    expect(res.status).toBe(200);
   });
 });

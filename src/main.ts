@@ -5,16 +5,9 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import yaml from 'yaml';
 import path from 'path';
 import * as fs from 'fs';
-import {
-  FastifyAdapter,
-  NestFastifyApplication,
-} from '@nestjs/platform-fastify';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
-    new FastifyAdapter(),
-  );
+  const app = await NestFactory.create(AppModule, { bufferLogs: true });
 
   const config = new DocumentBuilder().setTitle('Raven').build();
 
