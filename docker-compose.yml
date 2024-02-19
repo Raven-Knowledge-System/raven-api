@@ -19,6 +19,8 @@ services:
       - 9234:9234
     command: npm run start:debug
     environment: 
+      NODE_ENV: production
+      APP_ENV: development
       DATABASE_URL: postgres://username:password@postgres:5432/db
       OPENAI_API_KEY: ${OPENAI_API_KEY_PERSONAL}
       OPENAI_MODEL: 'gpt-4-turbo-preview'
