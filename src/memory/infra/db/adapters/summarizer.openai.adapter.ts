@@ -5,6 +5,9 @@ import { ConfigService } from '@nestjs/config';
 import { SummaryRepositoryPort } from '../../../domain/ports/summary.repository.port';
 import { StructuredOutputParser } from 'langchain/output_parsers';
 import { z } from 'zod';
+import { Readability } from '@mozilla/readability';
+import { JSDOM } from 'jsdom';
+import { pick } from 'lib/pick';
 
 const ResponseSchema = z.object({
   title: z.string(),
@@ -27,8 +30,8 @@ export class SummarizerOpenAiService implements SummaryRepositoryPort {
   async summarize(
     url: string,
   ): Promise<{ title: string; summary: string; author: string }> {
-    const response = await fetch(url);
-    const content = await response.text();
+    const content = await this.getArticleContent(url);
+
     return ChatPromptTemplate.fromMessages([
       [
         'system',
@@ -45,5 +48,19 @@ export class SummarizerOpenAiService implements SummaryRepositoryPort {
       .invoke({
         input: `The following is an HTML page. Summarize the content in 100 words: ${content}`,
       });
+  }
+
+  /**
+   * Attempts to use @mozilla/Readability to extract the article content from the given URL
+   * to save on token costs and processing time. If Readability fails, the raw HTML is returned.
+   */
+  private async getArticleContent(url: string): Promise<string> {
+    const rawHtmlText = await fetch(url).then((response) => response.text());
+    const { document } = new JSDOM(rawHtmlText).window;
+    const readerResult = new Readability(document).parse();
+
+    return readerResult
+      ? JSON.stringify(pick(readerResult, ['title', 'content', 'byline']))
+      : rawHtmlText;
   }
 }

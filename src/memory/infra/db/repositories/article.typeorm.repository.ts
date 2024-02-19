@@ -25,7 +25,6 @@ export class ArticleTypeormRepository implements ArticleRepositoryPort {
       relations: ['content', 'user'],
     });
 
-    console.log('found', { memory });
     return memory ? toDomain(memory) : null;
   }
 
